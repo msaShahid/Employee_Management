@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-logout',
-  imports: [CommonModule, FormsModule, RouterLink],
-  templateUrl: './logout.component.html',
-  styleUrl: './logout.component.css'
+  selector: 'app-registration',
+  imports: [CommonModule,ReactiveFormsModule,RouterLink],
+  templateUrl: './registration.component.html',
+  styleUrl: './registration.component.css'
 })
-export class LogoutComponent {
+export class RegistrationComponent {
   username: string = '';
   emailId: string = '';
   password: string = '';

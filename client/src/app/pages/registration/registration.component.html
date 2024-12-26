@@ -5,21 +5,21 @@
           <form>
             <div class="mb-3">
                 <label for="email" class="form-label">Username</label>
-                <input type="email" class="form-control" name="username" [(ngModel)]="username" placeholder="Enter your email">
+                <input type="email" class="form-control" name="username" placeholder="Enter your email">
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email address</label>
-              <input type="email" class="form-control" name="emailId" [(ngModel)]="emailId" placeholder="Enter your email">
+              <input type="email" class="form-control" name="emailId" placeholder="Enter your email">
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" name="password" [(ngModel)]="password" placeholder="Enter your password">
+              <input type="password" class="form-control" name="password" placeholder="Enter your password">
             </div>
             <div *ngIf="errorMessage" class="text-danger fw-bold p-2 text-center">
               {{ errorMessage }}
             </div>
             <div class="d-grid gap-2">
-              <button type="button" (click)="onRegister()" class="btn btn-primary">Login</button>
+              <button type="button" (click)="onRegister()" class="btn btn-primary">Register</button>
             </div>
           </form>
           <a class="nav-link mt-2" routerLink="/login">Have an account login?</a>

@@ -7,12 +7,12 @@ import { ProjectEmployeeComponent } from './pages/project-employee/project-emplo
 import { LayoutComponent } from './pages/layout/layout.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { authGuard } from './guard/auth.guard';
-import { LogoutComponent } from './pages/logout/logout.component';
+import { RegistrationComponent } from './pages/registration/registration.component';
 
 export const routes: Routes = [
     { path:'login',redirectTo: 'login',pathMatch: 'full'},
     { path: 'login',component: LoginComponent},
-    {path: 'registration', component: LogoutComponent},
+    {path: 'registration', component: RegistrationComponent},
     {
         path:'',
         component:LayoutComponent,
