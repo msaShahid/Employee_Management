@@ -1,0 +1,31 @@
+<div class="parent">
+    <div class="container login-container">
+        <div class="card login-card shadow p-4" style="width: 30rem;">
+          <h3 class="text-center mb-4">Registration</h3>
+          <form>
+            <div class="mb-3">
+                <label for="email" class="form-label">Username</label>
+                <input type="email" class="form-control" name="username" [(ngModel)]="username" placeholder="Enter your email">
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+              <input type="email" class="form-control" name="emailId" [(ngModel)]="emailId" placeholder="Enter your email">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" name="password" [(ngModel)]="password" placeholder="Enter your password">
+            </div>
+            <div *ngIf="errorMessage" class="text-danger fw-bold p-2 text-center">
+              {{ errorMessage }}
+            </div>
+            <div class="d-grid gap-2">
+              <button type="button" (click)="onRegister()" class="btn btn-primary">Login</button>
+            </div>
+          </form>
+          <a class="nav-link mt-2" routerLink="/login">Have an account login?</a>
+           
+        </div>
+      </div>
+</div>
+
+  
