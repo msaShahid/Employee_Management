@@ -29,7 +29,7 @@
         <!-- Right-aligned section: User name and Log off button -->
         <ul class="navbar-nav ms-auto">
           <li class="nav-item d-flex align-items-center">
-            <span class="navbar-text me-2 text-dark">Welcome, John Doe</span>
+            <span class="navbar-text me-2 text-dark">Welcome, {{ userName }}</span>
             <button class="btn btn-warning btn-sm" type="button" (click)="logout()">Logout</button>
           </li>
         </ul>

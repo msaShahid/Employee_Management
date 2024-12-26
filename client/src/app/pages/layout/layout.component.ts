@@ -11,10 +11,25 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 })
 export class LayoutComponent {
 
+  private userDetails: any;
+  userName: string | null = null; 
   //router = inject(Router);
   errorMessage: string = '';
   constructor(private authService: AuthService,private http: HttpClient,  private router: Router) { }
   
+
+  ngOnInit(): void {
+    const storedUserData = sessionStorage.getItem('user');
+
+    if (storedUserData) {
+      this.userDetails = JSON.parse(storedUserData);
+     // console.log(this.userDetails.username); 
+     this.userName = this.userDetails ? this.userDetails.username : null;
+
+    } else {
+      this.errorMessage = 'No user data';
+    }
+  }
 
   logout() {
     console.log("click on logut")
