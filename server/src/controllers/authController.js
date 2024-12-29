@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 
 const createUser = async (req, res) => {
     try {
-
         const { username, email, password } = req.body;
         const userExisit = await User.findOne({email})
 
@@ -34,7 +33,7 @@ const createUser = async (req, res) => {
             return res.status(400).json({ errors: errorMessages });
         }
         
-        res.status(500).json({message: "Singup is failed!"})
+        res.status(500).json({message: "Signup is failed!"})
     }
 };
 
@@ -92,15 +91,16 @@ const loginUser = async (req, res) => {
 
 const logoutUser = async (req, res) => {
     try {
+
+        // Clear the session cookie from the user's browser
+        res.clearCookie('connect.sid'); 
+        res.clearCookie('authToken');  
+
         req.session.destroy((err) => {
             if (err) {
                 console.error('Error destroying session:', err);
                 return res.status(500).json({ message: 'Failed to log out' });
             }
-        
-            // Clear the session cookie from the user's browser
-            res.clearCookie('connect.sid'); 
-            res.clearCookie('authToken');   
         
             return res.status(200).json({ message: 'Successfully logged out' });
         });
