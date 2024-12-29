@@ -17,16 +17,6 @@ export class AuthService {
     return !!sessionStorage.getItem('user'); 
   }
 
-  // login(email: string, password: string): Observable<ILoginResponse> {
-  //   return this.http.post<ILoginResponse>(`${this.apiUrl}/login`, {email, password}, {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/json',
-  //     }),
-  //     withCredentials: true,
-  //   });
-    
-  // }
-
   login(email: string, password: string): Observable<ILoginResponse> {
     return this.http.post<ILoginResponse>(`${this.apiUrl}/login`, { email, password }, {
       headers: new HttpHeaders({
@@ -39,7 +29,7 @@ export class AuthService {
         // Check if the response contains a token and store it in sessionStorage
         if (response.token) {
           sessionStorage.setItem('authToken', response.token);
-          console.log('Login successful! Token stored in sessionStorage.');
+        //  console.log('Login successful! Token stored in sessionStorage.');
         }
       })
     );
@@ -48,7 +38,7 @@ export class AuthService {
 
   logout(): Observable<any> {
     const authToken = sessionStorage.getItem('authToken');
-    console.log('authToken : ',authToken);
+    //console.log('authToken : ',authToken);
     if (!authToken) {
         console.warn('No auth token found, logging out without token.');
     }
