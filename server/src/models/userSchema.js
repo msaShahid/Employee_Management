@@ -28,6 +28,26 @@ const userSchema = new mongoose.Schema({
             message: "Password must have at least one uppercase letter, one lowercase letter, one number, and one special character."
         },
     },
+    verified: {
+        type: Boolean,
+        default: false,
+    },
+    verificationCode: {
+        type: String,
+        select: false,
+    },
+    verificationCodeValidation: {
+        type: Date, 
+        select: false,
+    },
+    forgotPasswordCode: {
+        type: String,
+        select: false,
+    },
+    forgotPasswordCodeValidation: {
+        type: Date,
+        select: false,
+    },
 }, { timestamps: true }); 
 
 // Hash password before saving user
@@ -38,6 +58,16 @@ userSchema.pre('save', async function (next) {
     }
     next();
 });
+
+userSchema.index({ email: 1, username: 1 });
+
+userSchema.methods.isVerificationCodeExpired = function() {
+    return this.verificationCodeValidation < new Date();
+};
+
+userSchema.methods.isForgotPasswordCodeExpired = function() {
+    return this.forgotPasswordCodeValidation < new Date();
+};
 
 const User = new mongoose.model('User', userSchema);
 
