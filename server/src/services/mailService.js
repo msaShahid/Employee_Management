@@ -1,5 +1,7 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
+const fs = require("fs");
+const path = require("path");
 
 
 const transporter = nodemailer.createTransport({
@@ -10,15 +12,22 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-function sendVerificationEmail(to, verificationCode) {
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: to,
-    subject: "Email Verification Code",
-    html: `<p>Your verification code is: <strong>${verificationCode}</strong></p>`
-  };
+function sendVerificationEmail(to, username, verificationCode) {
 
-  return transporter.sendMail(mailOptions);
+    const templatePath = path.join(__dirname, "../views/verificationTemplate.html");
+    let verificationtemplate = fs.readFileSync(templatePath, "utf-8");
+
+    verificationtemplate = verificationtemplate.replace("{{username}}", username);
+    verificationtemplate = verificationtemplate.replace("{{verificationCode}}", verificationCode);
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: to,
+        subject: "Email Verification Code",
+        html: verificationtemplate
+    };
+
+    return transporter.sendMail(mailOptions);
 }
 
 module.exports = sendVerificationEmail;
