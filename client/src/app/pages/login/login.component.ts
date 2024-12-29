@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,11 @@ export class LoginComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router){}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService
+    ){}
 
   onLogin(){
 
@@ -30,6 +35,7 @@ export class LoginComponent {
       next: (response) => {
         sessionStorage.setItem('user',JSON.stringify(response.user))
         console.log('Next to dashboard!');
+        this.toastr.success('Login successful!', 'Success');
         this.router.navigateByUrl("dashboard");
       },
       error: (error) => {
