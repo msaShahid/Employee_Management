@@ -1,27 +1,45 @@
 const User = require("../models/userSchema");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const generateVerificationCode = require('../utils/generateVerificationCode');
+const sendVerificationEmail = require('../services/mailService');
 
 
 const createUser = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
-        const userExisit = await User.findOne({email})
+       // console.log(req.body);
+        const { username, email, password, confirmPassword } = req.body;
 
-        if(userExisit) {
-            return res.status(400).json({errors: {email:"Email already exist"}})
+        if (!username || !email || !password || !confirmPassword) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+    
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: "Passwords do not match" });
         }
 
-        const user = new User({ username, email, password });
+        const verificationCode = generateVerificationCode();
+
+        console.log(verificationCode);
+
+        sendVerificationEmail(email, username, verificationCode);
+
+
+        // const userExisit = await User.findOne({email})
+        // if(userExisit) {
+        //     return res.status(400).json({errors: {email:"Email already exist"}})
+        // }
+
+        const user = new User({ username, email, password, verificationCode, verificationExpiry: Date.now() + 3600000  });
         await user.save();
 
         const token = jwt.sign({user: user._id, email: user.email}, process.env.JWT_SECRET, {expiresIn: "1d"})
-
+   
         res.status(201).json({
+            message: "User registered successfully. Please verify your email." ,
             user: {
                 id: user._id,
                 email: user.email,
-               // password: user.password,
             },
             token
         })
@@ -36,6 +54,40 @@ const createUser = async (req, res) => {
         res.status(500).json({message: "Signup is failed!"})
     }
 };
+
+const verifyUser = async (req, res) => {
+    try {
+        const { email, verificationCode } = req.body;
+
+        if (!email || !verificationCode) {
+            return res.status(400).json({ message: "Email and verification code are required" });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (user.verificationCode !== verificationCode) {
+            return res.status(400).json({ message: "Invalid verification code" });
+        }
+
+        if (user.isVerificationCodeExpired()) {
+            return res.status(400).json({ message: "Verification code has expired" });
+        }
+
+        user.isVerified = true; 
+        user.verificationCode = undefined; 
+        user.verificationExpiry = undefined; 
+        await user.save();
+
+        res.status(200).json({ message: "User verified successfully" });
+
+    } catch (error) {
+        res.status(500).json({ message: "Verification failed" });
+    }
+};
+
 
 const loginUser = async (req, res) => {
     const {email, password} = req.body;
@@ -113,4 +165,4 @@ const logoutUser = async (req, res) => {
   
   
 
-module.exports =  {createUser, loginUser, logoutUser};
+module.exports =  {createUser, verifyUser, loginUser, logoutUser};

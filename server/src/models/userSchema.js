@@ -34,19 +34,15 @@ const userSchema = new mongoose.Schema({
     },
     verificationCode: {
         type: String,
-        select: false,
     },
     verificationCodeValidation: {
         type: Date, 
-        select: false,
     },
     forgotPasswordCode: {
         type: String,
-        select: false,
     },
     forgotPasswordCodeValidation: {
         type: Date,
-        select: false,
     },
 }, { timestamps: true }); 
 
