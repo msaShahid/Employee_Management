@@ -12,7 +12,7 @@ const helmet = require('helmet');
 const PORT = process.env.PORT || 3000;
 const DB = process.env.MONGO_URI
 
-app.use(express.static('./dist/employee'));
+//app.use(express.static('./dist/employee'));
 
 // Middleware
 app.use(express.json());

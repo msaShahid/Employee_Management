@@ -20,8 +20,8 @@ const sendVerificationEmail = async (to, username, verificationCode) => {
       let verificationTemplate = fs.readFileSync(templatePath, "utf-8");
 
       verificationTemplate = verificationTemplate
-        .replace("{{username}}", username || '')
-        .replace("{{verificationCode}}", verificationCode || '');
+        .replace("{{username}}", username || 'Guest')
+        .replace("{{verificationCode}}", verificationCode || '123456');
 
       if (!username || !verificationCode) {
         console.warn('Missing data for placeholders in email template');

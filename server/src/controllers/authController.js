@@ -22,13 +22,10 @@ const createUser = async (req, res) => {
 
         console.log(verificationCode);
 
-        sendVerificationEmail(email, username, verificationCode);
-
-
-        // const userExisit = await User.findOne({email})
-        // if(userExisit) {
-        //     return res.status(400).json({errors: {email:"Email already exist"}})
-        // }
+       // sendVerificationEmail(email, username, verificationCode);
+        console.log("Starting email sending...");
+        await sendVerificationEmail(email, username, verificationCode);
+        console.log("Email sent.");
 
         const user = new User({ username, email, password, verificationCode, verificationExpiry: Date.now() + 3600000  });
         await user.save();
@@ -46,12 +43,13 @@ const createUser = async (req, res) => {
 
     } catch(error) {
 
+        console.error('Error during user signup:', error);
         if (error.name === 'ValidationError') {
             const errorMessages = Object.values(error.errors).map(err => err.message);
             return res.status(400).json({ errors: errorMessages });
         }
-        
-        res.status(500).json({message: "Signup is failed!"})
+
+        res.status(500).json({ message: "Signup failed!", error: error.message });
     }
 };
 
