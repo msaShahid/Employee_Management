@@ -12,22 +12,35 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-function sendVerificationEmail(to, username, verificationCode) {
+const sendVerificationEmail = async (to, username, verificationCode) => {
 
     const templatePath = path.join(__dirname, "../views/verificationTemplate.html");
-    let verificationtemplate = fs.readFileSync(templatePath, "utf-8");
 
-    verificationtemplate = verificationtemplate.replace("{{username}}", username);
-    verificationtemplate = verificationtemplate.replace("{{verificationCode}}", verificationCode);
+    try{
+      let verificationTemplate = fs.readFileSync(templatePath, "utf-8");
 
-    const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: to,
-        subject: "Email Verification Code",
-        html: verificationtemplate
-    };
+      verificationTemplate = verificationTemplate
+        .replace("{{username}}", username || '')
+        .replace("{{verificationCode}}", verificationCode || '');
 
-    return transporter.sendMail(mailOptions);
+      if (!username || !verificationCode) {
+        console.warn('Missing data for placeholders in email template');
+      }
+
+      const mailOptions = {
+          from: process.env.EMAIL_USER, 
+          to: to,
+          subject: "Email Verification Code",
+          html: verificationTemplate
+      };
+
+      await transporter.sendMail(mailOptions);
+      console.log(`Verification email sent to ${to}`);
+
+    }catch{
+      console.error("Error sending email:", error.message);
+    }
+      
 }
 
 module.exports = sendVerificationEmail;
