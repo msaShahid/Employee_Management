@@ -20,12 +20,12 @@ const createUser = async (req, res) => {
 
         const verificationCode = generateVerificationCode();
 
-        console.log(verificationCode);
+        // console.log(verificationCode);
 
        // sendVerificationEmail(email, username, verificationCode);
-        console.log("Starting email sending...");
+       // console.log("Starting email sending...");
         await sendVerificationEmail(email, username, verificationCode);
-        console.log("Email sent.");
+       // console.log("Email sent.");
 
         const user = new User({ username, email, password, verificationCode, verificationExpiry: Date.now() + 3600000  });
         await user.save();
