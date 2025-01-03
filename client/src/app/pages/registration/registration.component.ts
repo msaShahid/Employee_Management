@@ -50,7 +50,15 @@ export class RegistrationComponent {
 
   onRegister(): void {
     if (this.useForm.valid) {
-      console.log("Form Submitted!", this.useForm.value);
+     // console.log("Form Submitted!", this.useForm.value);
+     const {username, email, password } = this.useForm.value;
+     this.authService.registration(username, email, password).subscribe(
+      (response) => {
+        console.log(`Registration successfull :  ${response}`);
+        this.router.navigate(['/login']);
+      }
+     )
+
     } else {
       console.log('Form is invalid');
       this.useForm.markAllAsTouched();
