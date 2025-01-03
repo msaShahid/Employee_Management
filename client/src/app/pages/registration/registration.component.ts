@@ -56,6 +56,10 @@ export class RegistrationComponent {
       (response) => {
         console.log(`Registration successfull :  ${response}`);
         this.router.navigate(['/login']);
+      },
+      (error) => {
+        console.log(`Registration failed :  ${error}`);
+        alert(`Registration failed. Please try again!`)
       }
      )
 

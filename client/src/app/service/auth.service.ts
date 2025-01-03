@@ -21,12 +21,13 @@ export class AuthService {
     return this.http.post<IRegisterationResponse>(`${this.apiUrl}/signup`, {username, email, password}, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
       }),
       withCredentials: true,
     }).pipe(
       tap((response: IRegisterationResponse) => {
         if(response.token){
-          sessionStorage.setItem('user', response.token);
+          sessionStorage.setItem('authToken', response.token);
         }
       })
     )

@@ -24,7 +24,7 @@ const createUser = async (req, res) => {
 
        // sendVerificationEmail(email, username, verificationCode);
        // console.log("Starting email sending...");
-        await sendVerificationEmail(email, username, verificationCode);
+       // await sendVerificationEmail(email, username, verificationCode);
        // console.log("Email sent.");
 
         const user = new User({ 
@@ -39,7 +39,7 @@ const createUser = async (req, res) => {
         const token = jwt.sign(
             {user: user._id, email: user.email}, 
             process.env.JWT_SECRET, 
-            {expiresIn: "1d"}
+            {expiresIn: "1h"}
         )
    
         res.status(201).json({
@@ -125,7 +125,7 @@ const loginUser = async (req, res) => {
         const token = jwt.sign(
             { userId: user._id, email: user.email }, 
             process.env.JWT_SECRET, 
-            { expiresIn: "1d" }
+            { expiresIn: "1h" }
         );
 
         req.session.token = token;
@@ -133,7 +133,7 @@ const loginUser = async (req, res) => {
             httpOnly: true, 
             secure: false,
             sameSite: 'Strict', 
-            maxAge: 24 * 60 * 60 * 1000, 
+            maxAge: 60 * 60 * 1000, 
         });
 
         res.status(200).json({
