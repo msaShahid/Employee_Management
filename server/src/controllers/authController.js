@@ -27,15 +27,26 @@ const createUser = async (req, res) => {
         await sendVerificationEmail(email, username, verificationCode);
        // console.log("Email sent.");
 
-        const user = new User({ username, email, password, verificationCode, verificationExpiry: Date.now() + 3600000  });
+        const user = new User({ 
+                username, 
+                email, 
+                password, 
+                verificationCode, 
+                verificationExpiry: Date.now() + 3600000  
+        });
         await user.save();
 
-        const token = jwt.sign({user: user._id, email: user.email}, process.env.JWT_SECRET, {expiresIn: "1d"})
+        const token = jwt.sign(
+            {user: user._id, email: user.email}, 
+            process.env.JWT_SECRET, 
+            {expiresIn: "1d"}
+        )
    
         res.status(201).json({
             message: "User registered successfully. Please verify your email." ,
             user: {
                 id: user._id,
+                username: user.username,
                 email: user.email,
             },
             token
