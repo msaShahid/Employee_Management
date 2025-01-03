@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registration',
@@ -14,8 +15,13 @@ export class RegistrationComponent {
   
   isPasswordVisible: boolean = false;
   isConfirmPasswordVisible: boolean = false;
+  errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router){}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService
+    ){}
 
   useForm: FormGroup = new FormGroup({
     "username": new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -52,16 +58,20 @@ export class RegistrationComponent {
     if (this.useForm.valid) {
      // console.log("Form Submitted!", this.useForm.value);
      const {username, email, password } = this.useForm.value;
-     this.authService.registration(username, email, password).subscribe(
-      (response) => {
-        console.log(`Registration successfull :  ${response}`);
-        this.router.navigate(['/login']);
+     this.authService.registration(username, email, password).subscribe({
+      next: (response) => {
+        console.log('Next to login page!');
+        this.toastr.success('Registration successful!', 'Success');
+        this.router.navigateByUrl("login");
       },
-      (error) => {
-        console.log(`Registration failed :  ${error}`);
-        alert(`Registration failed. Please try again!`)
-      }
-     )
+      error: (error) => {
+        if (error?.error?.errors?.message) {
+          this.errorMessage = error.error.errors.message || 'An error occurred during login';
+        } else {
+          this.errorMessage = 'Login failed. Please check your credentials and try again.';
+        }
+      },
+    })
 
     } else {
       console.log('Form is invalid');
