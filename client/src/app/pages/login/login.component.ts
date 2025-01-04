@@ -24,8 +24,7 @@ export class LoginComponent {
     ){}
 
   onLogin(){
-
-    console.log('click on login');
+    
     if(!this.emailId || !this.password){
       this.errorMessage = 'Please enter both email and password'; 
       return;
@@ -34,7 +33,6 @@ export class LoginComponent {
     this.authService.login(this.emailId, this.password).subscribe({
       next: (response) => {
         sessionStorage.setItem('user',JSON.stringify(response.user))
-        console.log('Next to dashboard!');
         this.toastr.success('Login successful!', 'Success');
         this.router.navigateByUrl("dashboard");
       },
@@ -42,7 +40,7 @@ export class LoginComponent {
         if (error?.error?.errors?.message) {
           this.errorMessage = error.error.errors.message || 'An error occurred during login';
         } else {
-          this.errorMessage = 'Login failed. Please check your credentials and try again.';
+          this.errorMessage = 'Login failed. Please try again.';
         }
       },
     })
