@@ -57,18 +57,18 @@ export class RegistrationComponent {
   onRegister(): void {
     if (this.useForm.valid) {
      // console.log("Form Submitted!", this.useForm.value);
-     const {username, email, password } = this.useForm.value;
-     this.authService.registration(username, email, password).subscribe({
+     const {username, email, password, confirmPassword } = this.useForm.value;
+     this.authService.registration(username, email, password, confirmPassword).subscribe({
       next: (response) => {
-        console.log('Next to login page!');
-        this.toastr.success('Registration successful!', 'Success');
+       // console.log(`Next to login page! ${response.message}`);
+        this.toastr.success(`${response.message}`, 'Success');
         this.router.navigateByUrl("login");
       },
       error: (error) => {
         if (error?.error?.errors?.message) {
-          this.errorMessage = error.error.errors.message || 'An error occurred during login';
+          this.errorMessage = error.error.errors.message || `An error occurred during registration`;
         } else {
-          this.errorMessage = 'Login failed. Please check your credentials and try again.';
+          this.errorMessage = `Registration failed. Please try again.`;
         }
       },
     })

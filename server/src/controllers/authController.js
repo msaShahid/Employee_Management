@@ -37,7 +37,8 @@ const createUser = async (req, res) => {
         await user.save();
    
         res.status(201).json({
-            message: `Your registration was successful. Please check your email at ${user.email}. We have sent you an authentication code via email.` ,
+          //  message: `Your registration was successful. Please check your email at ${user.email}. We have sent you an authentication code via email.` ,
+            message: `Your registration was successful.` ,
             user: {
                 id: user._id,
                 username: user.username,
