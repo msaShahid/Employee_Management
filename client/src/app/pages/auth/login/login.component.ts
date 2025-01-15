@@ -41,10 +41,10 @@ export class LoginComponent {
       return this.loginForm.get('password');
     }
 
-    // Method to toggle password visibility
     togglePasswordVisibility() {
       this.passwordVisible = !this.passwordVisible;
     }
+
   onLogin(){
     
     if (this.loginForm.invalid) {

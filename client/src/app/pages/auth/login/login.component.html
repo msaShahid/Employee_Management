@@ -43,11 +43,11 @@
                             [ngClass]="{'is-invalid': loginForm.controls['password'].touched && loginForm.controls['password'].invalid}"
                             placeholder="Password" required
                         >
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
-                              <i class="fa" [ngClass]="passwordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+                        <span class="input-group-text">
+                            <button type="button" class="btn btn-outline-primary" (click)="togglePasswordVisibility()">
+                              <i class="fa" [ngClass]="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
                             </button>
-                          </div>
+                        </span>
                     </div>
 
                     <div *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid" class="invalid-feedback">
