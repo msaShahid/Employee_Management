@@ -22,15 +22,9 @@
                         placeholder="example@company.com" autofocus required
                     >
                     <div *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].invalid" class="invalid-feedback">
-                        <div *ngIf="loginForm.controls['email'].errors?.['required']">
-                            Email is required.
-                        </div>
-                        <div *ngIf="loginForm.controls['email'].errors?.['email']">
-                            Please enter a valid email address.
-                        </div>
-                        <div *ngIf="loginForm.controls['email'].errors?.['pattern']">
-                            Please enter a valid email format
-                        </div>
+                        <div *ngIf="loginForm.controls['email'].errors?.['required']">Email is required.</div>
+                        <div *ngIf="loginForm.controls['email'].errors?.['email']">Please enter a valid email address.</div>
+                        <div *ngIf="loginForm.controls['email'].errors?.['pattern']">Please enter a valid email format</div>
                     </div>
                 </div>
             </div>
@@ -43,21 +37,24 @@
                                 <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
                             </svg>
                         </span>
-                        <input type="password"class="form-control" name="password" formControlName="password" 
+                        <input 
+                            type="{{passwordVisible ? 'text' : 'password'}}"
+                            class="form-control" name="password" formControlName="password" 
                             [ngClass]="{'is-invalid': loginForm.controls['password'].touched && loginForm.controls['password'].invalid}"
                             placeholder="Password" required
                         >
                         <div class="input-group-append">
                             <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
-                                <i class="fa" [ngClass]="passwordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+                              <i class="fa" [ngClass]="passwordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
                             </button>
-                        </div>
-
-                        <div *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid" class="invalid-feedback">
-                            <div *ngIf="loginForm.controls['password'].errors?.['required']">Password is required.</div>
-                            <div *ngIf="loginForm.controls['password'].errors?.['minlength']">Password must be at least 6 characters long.</div>
-                        </div>
+                          </div>
                     </div>
+
+                    <div *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid" class="invalid-feedback">
+                        <div *ngIf="loginForm.controls['password'].errors?.['required']">Password is required.</div>
+                        <div *ngIf="loginForm.controls['password'].errors?.['minlength']">Password must be at least 6 characters long.</div>
+                    </div>
+                    
                 </div>
                 <div class="d-flex justify-content-between align-items-top mb-4">
                     <div class="form-check">
