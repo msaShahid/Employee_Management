@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../service/auth.service';
 import { CommonModule } from '@angular/common';
@@ -7,14 +7,12 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule,CommonModule,RouterLink],
+  imports: [ReactiveFormsModule,CommonModule,RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
 
-  emailId: string = '';
-  password: string = '';
   errorMessage: string = '';
 
   constructor(
@@ -23,14 +21,35 @@ export class LoginComponent {
     private toastr: ToastrService
     ){}
 
+    loginForm: FormGroup = new FormGroup({
+      email: new FormControl('', [
+        Validators.required,
+        Validators.email,
+        Validators.pattern(
+          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        ),
+      ]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    });
+
+    get email() {
+      return this.loginForm.get('email');
+    }
+  
+    get password() {
+      return this.loginForm.get('password');
+    }
+
   onLogin(){
     
-    if(!this.emailId || !this.password){
-      this.errorMessage = 'Please enter both email and password'; 
+    if (this.loginForm.invalid) {
+      this.errorMessage = 'Please enter valid email and password.';
       return;
     }
 
-    this.authService.login(this.emailId, this.password).subscribe({
+    const { email, password } = this.loginForm.value;
+
+    this.authService.login(email, password).subscribe({
       next: (response) => {
         sessionStorage.setItem('user',JSON.stringify(response.user))
         this.toastr.success('Login successful!', 'Success');
@@ -42,6 +61,7 @@ export class LoginComponent {
         } else {
           this.errorMessage = 'Login failed. Please try again.';
         }
+        this.toastr.error(this.errorMessage, 'Error');
       },
     })
 
