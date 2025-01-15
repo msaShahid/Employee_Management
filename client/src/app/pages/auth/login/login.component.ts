@@ -33,14 +33,6 @@ export class LoginComponent {
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     });
 
-    get email() {
-      return this.loginForm.get('email');
-    }
-  
-    get password() {
-      return this.loginForm.get('password');
-    }
-
     togglePasswordVisibility() {
       this.passwordVisible = !this.passwordVisible;
     }

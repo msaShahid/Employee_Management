@@ -2,10 +2,10 @@
 @import url("assets/css/volt.css");
 
 .is-invalid {
-    border-color: #dc3545;
-  }
-  
-  .invalid-feedback {
-    font-size: 0.875rem;
-    color: #dc3545;
-  }
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  font-size: 0.875rem;
+  color: #dc3545;
+}
