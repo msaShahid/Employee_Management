@@ -11,9 +11,7 @@ import { LoginComponent } from './pages/auth/login/login.component';
 import { AuthLayoutComponent } from './pages/auth/auth-layout/auth-layout.component';
 
 export const routes: Routes = [
-    { path:'login',redirectTo: 'login',pathMatch: 'full'},
-    // { path: 'login',component: LoginComponent},
-    // { path: 'registration', component: RegistrationComponent},
+    { path:'',redirectTo: 'login',pathMatch: 'full'},
     {
         path:'',
         component: AuthLayoutComponent,
