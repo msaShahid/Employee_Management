@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import url("assets/css/volt.css");
+@import url("assets/css/main.css");
 
 .is-invalid {
   border-color: #dc3545;
