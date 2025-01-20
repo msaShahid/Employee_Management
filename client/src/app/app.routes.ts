@@ -5,7 +5,7 @@ import { ProjectComponent } from './pages/project/project.component';
 import { ProjectEmployeeComponent } from './pages/project-employee/project-employee.component';
 import { LayoutComponent } from './pages/layout/layout.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { authGuard } from './guard/auth.guard';
+import { authGuard } from './pages/auth/guard/auth.guard';
 import { RegistrationComponent } from './pages/auth/registration/registration.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { AuthLayoutComponent } from './pages/auth/auth-layout/auth-layout.component';
