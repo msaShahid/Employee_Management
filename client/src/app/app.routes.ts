@@ -9,8 +9,18 @@ import { authGuard } from './pages/auth/guard/auth.guard';
 import { RegistrationComponent } from './pages/auth/registration/registration.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { AuthLayoutComponent } from './pages/auth/auth-layout/auth-layout.component';
+import { AdminLayoutComponent } from './pages/admin/admin-layout/admin-layout.component';
+import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-dashboard.component';
 
 export const routes: Routes = [
+   // {path: 'admin', component: AdminLayoutComponent},
+   {
+        path: 'admin-dashboard',
+        component: AdminLayoutComponent,
+        children: [
+            { path: '', component: AdminDashboardComponent }
+        ]
+    },
     { path:'',redirectTo: 'login',pathMatch: 'full'},
     {
         path:'',
