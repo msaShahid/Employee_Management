@@ -159,6 +159,7 @@ const loginUser = async (req, res) => {
 const logoutUser = async (req, res) => {
     try {
 
+        const role = req.user.role;
         // Clear the session cookie from the user's browser
         res.clearCookie('authToken');
         res.clearCookie('refreshToken');
@@ -169,12 +170,14 @@ const logoutUser = async (req, res) => {
                 console.error('Error destroying session:', err);
                 return res.status(500).json({ message: 'Failed to log out' });
             }
-            return res.status(200).json({ message: 'Successfully logged out' });
+            return res.status(200).json({ 
+                message: `${role} successfully logged out` 
+            });
         });
       
     } catch (error) {
         console.error('Logout error:', error);
-        return res.status(500).json({ message: 'An unexpected error occurred' });
+        return res.status(500).json({ message: 'An unexpected error occurred'});
     }
 };
   
