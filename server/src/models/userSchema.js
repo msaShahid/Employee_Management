@@ -3,10 +3,7 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true,
-    },
+    username: { type: String, required: true},
     email: {
         type: String,
         required: [true, "Email is required"],
@@ -28,22 +25,12 @@ const userSchema = new mongoose.Schema({
             message: "Password must have at least one uppercase letter, one lowercase letter, one number, and one special character."
         },
     },
-    verified: {
-        type: Boolean,
-        default: false,
-    },
-    verificationCode: {
-        type: String,
-    },
-    verificationCodeValidation: {
-        type: Date, 
-    },
-    forgotPasswordCode: {
-        type: String,
-    },
-    forgotPasswordCodeValidation: {
-        type: Date,
-    },
+    role: { type: String, enum: ['superadmin','admin', 'user'], default: 'user' },
+    verified: { type: Boolean,default: false },
+    verificationCode: { type: String },
+    verificationCodeValidation: { type: Date },
+    forgotPasswordCode: { type: String },
+    forgotPasswordCodeValidation: { type: Date },
 }, { timestamps: true }); 
 
 // Hash password before saving user
